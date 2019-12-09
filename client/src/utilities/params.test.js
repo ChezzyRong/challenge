@@ -1,6 +1,10 @@
 import * as params from "./params";
 import { DEFAULT_PARAMS } from "../constants/params";
 
+`
+We're testing the params functionality here because we use the url as the
+state for our application, so ensuring the params are correct is essential.
+`
 test("pushes the correct path to history", () => {
   const push = jest.fn();
   const mockHistory = { push };
