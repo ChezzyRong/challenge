@@ -1,0 +1,6 @@
+client/public
+client/node_modules
+server/.venv
+server/challenge/__pycache__
+server/challenge/instance
+server/tests/__pycache__
