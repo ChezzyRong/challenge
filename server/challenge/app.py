@@ -8,14 +8,20 @@ from worker import conn
 from jobs import count_words
 from requests import get
 from utility import sort_and_paginate
+import nltk
 
 
 app = Flask(__name__)
+nltk.download('punkt')
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 queue = Queue(connection=conn)
 job_map = {}
 
+
+@app.route("/hello", methods=['GET'])
+def hello():
+    return "Hello", 200
 
 """
 Checks if the URL requested has a job associated already, if not then a job
@@ -61,7 +67,8 @@ def word_count_job_results(url, sort, order, page):
         return handle_request(url, sort, order, page)
 
     if job.is_finished:
-        if not job.result:
+        if job.result == []:
+            print(job.result)
             return "Invalid URL", 500
         
         ret = sort_and_paginate(job.result.items(), sort, order, page)
@@ -76,4 +83,4 @@ def new_word_count_job(url):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')

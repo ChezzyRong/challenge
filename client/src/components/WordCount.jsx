@@ -30,7 +30,7 @@ const countWords = async (prevState, setState, query) => {
         addHistory(query.url);
         break;
       case 202:
-        setState({ data: ["Loading"], pages: 0, params: query });
+        setState({ data: [["Loading"], []], pages: 0, params: query });
         setTimeout(() => countWords(prevState, setState, query), 500);
         break;
       default:
@@ -44,7 +44,7 @@ const countWords = async (prevState, setState, query) => {
 
 function setErrorState(setState, query) {
   setState({
-    data: ["Unable to process URL, please check format again and retry"],
+    data: [["Unable to process URL, please check format again and retry", []]],
     pages: 0,
     params: query
   });

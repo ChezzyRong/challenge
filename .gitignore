@@ -1,4 +1,3 @@
-client/public
 client/node_modules
 server/.venv
 server/challenge/__pycache__

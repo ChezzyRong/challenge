@@ -1,6 +1,22 @@
 # URL text word counter
 
-A simple web app to count words given url with simple sorting functionalities for results, as well as a history for all previous queries.
+A simple web app to count words given url with simple sorting functionalities
+for results, as well as a history for all previous queries.
+
+## Screenshots
+
+<details>
+<summary>Show screenshots</summary>
+
+### Initial
+![Alt text](/screenshots/initial.png?raw=true "No requests")
+
+### Valid URL with results
+![Alt text](/screenshots/success.png?raw=true "Request with results")
+
+### Invalid URL
+![Alt text](/screenshots/failure.png?raw=true "Request with error")
+</details>
 
 ## Architecture and decisions
 
@@ -8,46 +24,87 @@ The project uses react on the front-end with npm serving the files. The back-end
 
 Flask is used because it's extremely lightweight and quick to prototype. React is used because it's the standard solution for single page applications and allows for a nice seperation between logic and views. Redis is used as our in memory storage and job queue because it integrated nicely with Python, allows Flask to dispatch jobs to workers and handle other requests in an almost async way.
 
-### Prerequisites
+# Running the app
 
-You need Python 3.7.3, node.js and redis for running this project. You can download the installer for python3 and node.js from their official websites below:
+## Running with Docker
 
-* [node.js](https://nodejs.org/en/)
-* [python](https://www.python.org)
+<details>
+<summary>Details</summary>
 
-For redis, if you are on Mac OS and you have brew, do `brew install redis`
+#### Prerequisites
 
-To set up the project for dev, clone this repo.
+In order to run this through docker on your machine, you'll need the following
+dependencies:
 
-### Setting up the front-end
+- [docker](https://www.docker.com/)
 
-Assume you are in the `/challenge` directory, to spin up the front-end:
-
-```
-cd client
-npm install
-npm start
+#### Steps
 
 ```
-Go to the address localhost:3000 you and you should see a single page app.
+# Confirm versions
+docker -v  # Should be 19.03.5
 
-
-### Setting up the back-end
-
-Assume you are in the `/challenge` directory, to spin up the back-end:
-
-```
-cd server
-pip install -r requirements.txt
+# Clone project
+git clone https://github.com/ChezzyRong/challenge.git
 cd challenge
-redis-server #assuming redis is installed at this point
-python worker.py
-python app.py
+
+# Start docker (Assuming you're in /challenge)
+docker-compose up --build -d
+```
+
+Once docker-compose finishes you should be able to launch the app on
+localhost:3000/
+
+</details>
+
+## Running with Command line
+
+<details>
+<summary>Details</summary>
+
+#### Prerequisites
+
+In order to run this locally on your machine, you'll need the following
+dependencies:
+
+- [python](https://www.python.org)
+- [node.js](https://nodejs.org/en/)
+- [redis](https://redis.io/)
+
+#### Steps
 
 ```
-If redis is running correctly and all of the above commands work, you should be able to call the api directly on localhost:5000.
+# Confirm versions
+node -v                 # Should be 8.16.2
+npm -v                  # Should be 6.4.1
+python3 --version       # Should be 3.6.9
+pip3 —version           # Should be 9.0.1
+redis-server --version  # Should be 4.0.9
 
-## Running the tests
+# Clone project
+git clone https://github.com/ChezzyRong/challenge.git
+cd challenge
+
+# Start the front end (Assuming you're in /challenge)
+cd client/
+npm install
+npm start # Use 'npm start &' to run as background task
+
+# Start the backend (Assuming you're in /challenge)
+cd server/
+pip3 install -r requirements.txt
+cd challenge/
+redis-server &
+python3 worker.py &
+python3 app.py & 
+```
+
+Once the above has completed you should be able to visit the app on
+localhost:3000/
+
+</details>
+
+# Running the tests
 
 Assuming you're in the `/challenge` directory, you can follow the instructions below for the backend and front end tests.
 
@@ -65,25 +122,25 @@ cd client
 npm test
 ```
 
-## A few nice-to-haves in the future
+# A few nice-to-haves in the future
 
 For simplicity, this project implemented the bare minimum to meet the functional requirements whilst keeping the code readable. Dependent on the deployment process and server/client architecture choice of the future, a few more things can be implemented
 
-* Configs for different environment
-* Back-end persistence with database
-* Removing `@cross_origin()` from flask and whitelist client url on a proxy sitting in front of the flask app
-* Api versioning
-* More testing, especially integration and end to end tests
+- Configs for different environment
+- Back-end persistence with database
+- Removing `@cross_origin()` from flask and use a proxy to avoid CORS
+- API versioning
+- More testing, especially integration and end to end tests
 
 And much more!
 
 ## Built With
 
-* [Flask](https://pypi.org/project/Flask/) - A web server framework
-* [npm](https://www.npmjs.com) - Frontend dependency management
-* [React](https://reactjs.org) - Frontend UI framework
-* [Redis](https://redis.io) - An in-memory job queue for backend
+- [Flask](https://pypi.org/project/Flask/) - A web server framework
+- [npm](https://www.npmjs.com) - Frontend dependency management
+- [React](https://reactjs.org) - Frontend UI framework
+- [Redis](https://redis.io) - An in-memory job queue for backend
 
 ## Authors
 
-* **Li Rong** - *Initial work*
+- **Li Rong** - _Initial work_
