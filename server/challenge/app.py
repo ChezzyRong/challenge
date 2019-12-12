@@ -19,10 +19,6 @@ queue = Queue(connection=conn)
 job_map = {}
 
 
-@app.route("/hello", methods=['GET'])
-def hello():
-    return "Hello", 200
-
 """
 Checks if the URL requested has a job associated already, if not then a job
 is submitted. Once the job is complete, this call will respond with the results
@@ -68,7 +64,6 @@ def word_count_job_results(url, sort, order, page):
 
     if job.is_finished:
         if job.result == []:
-            print(job.result)
             return "Invalid URL", 500
         
         ret = sort_and_paginate(job.result.items(), sort, order, page)
